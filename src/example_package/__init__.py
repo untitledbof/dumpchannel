@@ -6,12 +6,11 @@ from sqlalchemy.orm import sessionmaker
 
 from model.message import Embed, EmbedField, Guild, User, Channel, Message, Attachment
 from model.base import Base
-from config_secret import TOKEN
+from config_secret import TOKEN, guild_to_log, channel_to_log
 
 engine = create_engine('sqlite:///palera1n12.db')
 
-guild_to_log = 1028398973452570725
-channel_to_log = 1028398976640229380
+
 
 Session = sessionmaker(bind=engine)
 session = Session()
