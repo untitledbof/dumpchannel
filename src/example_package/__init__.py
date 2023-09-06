@@ -8,7 +8,7 @@ from model.message import Embed, EmbedField, Guild, User, Channel, Message, Atta
 from model.base import Base
 from config_secret import TOKEN, guild_to_log, channel_to_log
 
-engine = create_engine('sqlite:///palera1n12.db')
+engine = create_engine('sqlite:///anothergc.db')
 
 
 
@@ -25,24 +25,23 @@ with engine.connect() as connection:
 class MyClient(discord.Client):
     async def on_ready(self):
         print('Logged on as', self.user)
-        self.guild = self.get_guild(guild_to_log)
-        self.channel = self.guild.get_channel(channel_to_log)
-        print(self.guild)
+        # self.guild = self.get_guild(guild_to_log)
+        self.channel = self.get_channel(channel_to_log)
+        # print(self.guild)
         print(self.channel)
 
-        guild = Guild(
-            id=self.guild.id,
-            name=self.guild.name,
-        )
+        # guild = Guild(
+        #     id=self.guild.id,
+        #     name=self.guild.name,
+        # )
 
-        exists = session.query(Guild).filter_by(id=self.guild.id).first()
-        if not exists:
-            session.add(guild)
+        # exists = session.query(Guild).filter_by(id=self.guild.id).first()
+        # if not exists:
+        #     session.add(guild)
 
         channel = Channel(
             id=self.channel.id,
             name=self.channel.name,
-            guild=self.guild.id,
         )
 
         exists = session.query(Channel).filter_by(id=self.channel.id).first()
@@ -83,7 +82,6 @@ class MyClient(discord.Client):
                 author=message.author.id,
                 channel=message.channel.id,
                 timestamp=message.created_at,
-                guild=message.guild.id,
                 reference=cast(discord.MessageReference, message.reference).message_id if message.reference else None,
                 edited_timestamp=message.edited_at,
                 # attachment=[attach.id for attach in message.attachments],
